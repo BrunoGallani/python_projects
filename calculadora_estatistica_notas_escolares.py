@@ -21,7 +21,7 @@ def cadastra_informacoes_turma():
 
   • numero_alunos (número de alunos de uma turma): int
   • numero_provas (número de provas feitas durante o quadrimestre): int
-  • aulas_ministradas : int
+  • aulas_ministradas: int
   • recuperacao_aberta: str
 
   (É importante ressaltar que os períodos letivos são quadrimestrais).
@@ -42,8 +42,9 @@ def cadastra_informacoes_turma():
   numero_provas = int(numero_provas)
 
   aulas_ministradas = input("Quantas aulas foram ministradas durante o quadrimestre? ")
-  while not aulas_ministradas.isdigit() or int(aulas_ministradas) < 1 or int(aulas_ministradas) > 12:
-    print("\nInsira um número válido (entre 1 e 12).")
+  while not aulas_ministradas.isdigit() or int(aulas_ministradas) < 1 or int(aulas_ministradas) > 36:
+    # O número máximo de aulas ministradas em uma disciplina quadrimestral é 36
+    print("\nInsira um número válido (entre 1 e 36).")
     aulas_ministradas = input("Quantas aulas foram ministradas durante o quadrimestre? ")
   aulas_ministradas = int(aulas_ministradas)
 
@@ -175,56 +176,56 @@ def mostra_matriz_ou_vetor(matriz_ou_vetor):
     print("Aluno " + str(indice + 1) + ":", matriz_ou_vetor[indice])
   print()
 
-def consulta_provas_aluno(matriz_notas, indice_aluno):
+def consulta_provas_aluno(alunos_notas, indice_aluno):
   '''
   Imprime as notas e conceitos das provas de um aluno específico,
   a partir da consulta das notas na matriz de notas.
 
   Parâmetros:
 
-  matriz_notas (matriz) ------> matriz de notas predefinida
+  alunos_notas (matriz) ------> matriz de notas predefinida
   indice_aluno (int) ------> número do aluno do qual se deseja saber as notas das provas
   '''
-  numero_provas = len(matriz_notas[0])
+  numero_provas = len(alunos_notas[0])
   for indice_prova in range(numero_provas):
-    nota = matriz_notas[indice_aluno - 1][indice_prova]
+    nota = alunos_notas[indice_aluno - 1][indice_prova]
     conceito = verifica_conceito(nota)
     print(f"A nota da P{indice_prova + 1} do aluno {indice_aluno} é {nota}, equivalente ao conceito {conceito}.")
 
-def consulta_media_individual(matriz_notas, indice_aluno):
+def consulta_media_individual(alunos_notas, indice_aluno):
   '''
   Retorna a média final de um aluno específico.
 
   Parâmetros:
 
-  matriz_notas (matriz) ------> matriz de notas predefinida
+  alunos_notas (matriz) ------> matriz de notas predefinida
   indice_aluno (int) ------> número do aluno do qual se deseja saber as notas das provas
   '''
-  numero_provas = len(matriz_notas[0])
-  media = sum(matriz_notas[indice_aluno - 1]) / numero_provas
+  numero_provas = len(alunos_notas[0])
+  media = sum(alunos_notas[indice_aluno - 1]) / numero_provas
   media = f'{media:.2f}'
   media = float(media)
 
   return media
 
-def medias_individuais(matriz_notas):
+def medias_individuais(alunos_notas):
   '''
   Imprime as médias finais de todos os alunos cadastrados.
 
-  matriz_notas (matriz) ----> matriz de notas predefinida
+  alunos_notas (matriz) ----> matriz de notas predefinida
   '''
-  numero_provas = len(matriz_notas[0])
-  numero_alunos = len(matriz_notas)
+  numero_provas = len(alunos_notas[0])
+  numero_alunos = len(alunos_notas)
 
   for indice_aluno in range(numero_alunos):
-    media = sum(matriz_notas[indice_aluno]) / numero_provas
+    media = sum(alunos_notas[indice_aluno]) / numero_provas
     media = f'{media:.2f}'
     media = float(media)
     conceito = verifica_conceito(media)
     aprovado_ou_reprovado = verifica_aprovado_ou_reprovado(conceito)
     print(f"A média final do aluno {indice_aluno + 1} é {media} ({aprovado_ou_reprovado}).")
 
-def medias_provas(matriz_notas):
+def medias_provas(alunos_notas):
   '''
   Imprime as médias das notas obtidas em cada uma das provas.
 
@@ -233,12 +234,12 @@ def medias_provas(matriz_notas):
   média da P2 ---> y
   ...
   '''
-  numero_alunos = len(matriz_notas)
-  numero_provas = len(matriz_notas[0])
+  numero_alunos = len(alunos_notas)
+  numero_provas = len(alunos_notas[0])
 
   soma = 0
   for indice_prova in range(numero_provas):
-    for notas_aluno in matriz_notas:
+    for notas_aluno in alunos_notas:
       soma += notas_aluno[indice_prova]
 
     media = soma / numero_alunos
@@ -248,15 +249,15 @@ def medias_provas(matriz_notas):
     soma = 0
     print(f"A média da P{indice_prova + 1} é {media}, equivalente ao conceito {conceito}.")
 
-def calcula_media_turma(matriz_notas):
+def calcula_media_turma(alunos_notas):
   '''
   Retorna a média da turma de alunos, que é calculada a partir da soma de cada uma das notas
   presentes na matriz de notas.
 
-  matriz_notas (matriz) ----> matriz de notas predefinida
+  alunos_notas (matriz) ----> matriz de notas predefinida
   '''
   soma = 0
-  elementos = [elemento for linha in matriz_notas for elemento in linha]
+  elementos = [elemento for linha in alunos_notas for elemento in linha]
   for valor in elementos:
     soma += valor
 
@@ -317,18 +318,18 @@ def calcula_moda_matriz(matriz):
                                                     # os elementos da lista de modas, um por um, e transformá-los em strings.
       print(f"\nO(s) valor(es) da moda na matriz de notas é(são): {moda}.")
 
-def desvio_padrao_medias_individuais(matriz_notas):
+def desvio_padrao_medias_individuais(alunos_notas):
   '''
   Calcula e retorna o desvio padrão e a variância das médias individuais
   em relação à média final da turma.
 
-  matriz_notas (matriz) ---> matriz de notas predefinida
+  alunos_notas (matriz) ---> matriz de notas predefinida
   '''
   #Função que calcula a média de todos os elementos da matriz mas nós iremos importar o resultado da função média
-  media_turma = calcula_media_turma(matriz_notas)
+  media_turma = calcula_media_turma(alunos_notas)
 
   #Calcula a média de cada linha
-  medias_individuais = np.mean(matriz_notas, axis=1)
+  medias_individuais = np.mean(alunos_notas, axis=1)
 
   #Função que calcula o desvio padrão das médias individuais em relação à média final da turma
   desvio_padrao_medias = np.std(medias_individuais - media_turma)
@@ -401,7 +402,7 @@ def calculadora_estatisticas_notas_escolares():  # Essa função é a principal 
   Desvio padrão populacional: é uma medida de dispersão quadrática, que calcula
   o quanto um dado variável está disperso em relação à média ou à mediana.
 
-  (O desvio padrão populacional correspondxe a todos os dados de uma população)
+  (O desvio padrão populacional corresponde a todos os dados de uma população)
   '''
   saudacoes()
   numero_alunos, numero_provas, aulas_ministradas, recuperacao_aberta = cadastra_informacoes_turma()
@@ -473,7 +474,7 @@ def calculadora_estatisticas_notas_escolares():  # Essa função é a principal 
 
     elif opcao == "4":
       desvio_padrao = desvio_padrao_medias_individuais(alunos_notas)
-      print(f"\nO desvio padrão das médias individuais em relação à média da turma é: {desvio_padrao:.2f}")
+      print(f"\nO desvio padrão das médias individuais em relação à média da turma é: {desvio_padrao:.2f}.")
 
     elif opcao == "5":
       numero_aluno = input("\nPor favor, digite o número do aluno que você deseja consultar o boletim: ")
@@ -484,7 +485,6 @@ def calculadora_estatisticas_notas_escolares():  # Essa função é a principal 
       frequencia_aluno = alunos_frequencias[numero_aluno - 1]  # em %
 
       if 75 <= frequencia_aluno <= 100:
-        print()
         media = consulta_media_individual(alunos_notas, numero_aluno)
         conceito = verifica_conceito(media)
         necessidade_recuperacao = verifica_necessidade_recuperacao(recuperacao_aberta, conceito)
@@ -499,10 +499,11 @@ def calculadora_estatisticas_notas_escolares():  # Essa função é a principal 
         print(f"\nO aluno obteve o conceito final {conceito} por ter frequência insuficiente e, portanto, foi {aprovado_ou_reprovado}.")
 
     elif opcao == "6":
-      numero_aluno = input("Por favor, digite o número do aluno que você deseja consultar as notas: ")
+      numero_aluno = input("\nPor favor, digite o número do aluno que você deseja consultar as notas: ")
       while not int(numero_aluno) in range(1, numero_alunos + 1) or not numero_aluno.isdigit():
-        numero_aluno = input("Digite um número válido.")
+        numero_aluno = input("\nDigite um número válido.")
       numero_aluno = int(numero_aluno)
+      print()
       consulta_provas_aluno(alunos_notas, numero_aluno)
 
     elif opcao == "7":
