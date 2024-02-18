@@ -1,3 +1,4 @@
 In this repository, you can view all the python projects I developed:
 
-- <a href = 'https://github.com/Bruno-Gallani/python_projects/blob/main/calculadora_estatistica_notas_escolares.py'>Statistics scholar grades calculator</a>
+- <a href="https://github.com/BrunoGallani/case_tunts.rocks">Integrating Google Sheets-Python to fill missing values on a spreadsheet</a>
+- <a href = "./calculadora_estatistica_notas_escolares.py">Scholar grades statistics calculator</a>
